@@ -1,5 +1,9 @@
 package it.prova.gestioneordini.dao.categoria;
 
-public interface CategoriaDAO {
+import it.prova.gestioneordini.dao.IBaseDAO;
+import it.prova.gestioneordini.model.Articolo;
+import it.prova.gestioneordini.model.Categoria;
+
+public interface CategoriaDAO extends IBaseDAO<Categoria>{
 
 }
