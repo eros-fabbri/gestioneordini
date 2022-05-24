@@ -1,27 +1,37 @@
 package it.prova.gestioneordini.dao;
 
-import it.prova.manytomanycdmaven.dao.cd.CdDAO;
-import it.prova.manytomanycdmaven.dao.cd.CdDAOImpl;
-import it.prova.manytomanycdmaven.dao.genere.GenereDAO;
-import it.prova.manytomanycdmaven.dao.genere.GenereDAOImpl;
+import it.prova.gestioneordini.dao.articolo.ArticoloDAO;
+import it.prova.gestioneordini.dao.articolo.ArticoloDAOImpl;
+import it.prova.gestioneordini.dao.categoria.CategoriaDAO;
+import it.prova.gestioneordini.dao.categoria.CategoriaDAOImpl;
+import it.prova.gestioneordini.dao.ordine.OrdineDAO;
+import it.prova.gestioneordini.dao.ordine.OrdineDAOImpl;
 
 public class MyDaoFactory {
 
-	private static CdDAO cdDaoInstance = null;
-	private static GenereDAO genereDaoInstance = null;
+	private static ArticoloDAO articoloDaoInstance = null;
+	private static CategoriaDAO categoriaDaoInstance = null;
+	private static OrdineDAO ordineDaoInstance = null;
 
-	public static CdDAO getCdDAOInstance() {
-		if (cdDaoInstance == null)
-			cdDaoInstance = new CdDAOImpl();
+	public static ArticoloDAO getArticoloDAOInstance() {
+		if (articoloDaoInstance == null)
+			articoloDaoInstance = new ArticoloDAOImpl();
 
-		return cdDaoInstance;
+		return articoloDaoInstance;
 	}
 
-	public static GenereDAO getGenereDAOInstance() {
-		if (genereDaoInstance == null)
-			genereDaoInstance = new GenereDAOImpl();
+	public static CategoriaDAO getCategoriaDAOInstance() {
+		if (categoriaDaoInstance == null)
+			categoriaDaoInstance = new CategoriaDAOImpl();
 
-		return genereDaoInstance;
+		return categoriaDaoInstance;
+	}
+
+	public static OrdineDAO getOrdineDAOInstance() {
+		if (ordineDaoInstance == null)
+			ordineDaoInstance = new OrdineDAOImpl();
+
+		return ordineDaoInstance;
 	}
 
 }
