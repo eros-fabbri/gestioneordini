@@ -19,11 +19,12 @@ import javassist.expr.NewArray;
 @Table(name = "ordine")
 public class Ordine {
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "nomedestinatario")
+	@Column(name = "nomedestinatorio")
 	private String nomeDestinatario;
 	@Column(name = "indirizzospedizione")
 	private String indirizzoSpedizione;

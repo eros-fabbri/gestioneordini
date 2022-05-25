@@ -1,5 +1,6 @@
 package it.prova.gestioneordini.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "articolo")
@@ -22,18 +27,27 @@ public class Articolo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private long id;
+	private Long id;
 	@Column(name = "descrizione")
 	private String descrizione;
+	@Column(name = "numeroseriale")
+	private String numeroSeriale;
 	@Column(name = "prezzosingolo")
 	private int prezzoSingolo;
-	@Column(name = "dataInserimento")
+	@Column(name = "datainserimento")
 	private Date dataInserimento;
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ordine_id", nullable = false)
 	private Ordine ordine;
 
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
-	@JoinTable(name = "articolo_categoria", joinColumns = @JoinColumn(name = "articolo_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id"))
+	@JoinTable(name = "articolo_categoria", joinColumns = @JoinColumn(name = "articolo_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
+
 	private List<Categoria> categorie;
 
 	public Articolo() {
