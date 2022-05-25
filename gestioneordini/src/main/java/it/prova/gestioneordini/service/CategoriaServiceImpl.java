@@ -5,28 +5,23 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import it.prova.gestioneordini.dao.EntityManagerUtil;
-import it.prova.gestioneordini.dao.articolo.ArticoloDAO;
+import it.prova.gestioneordini.dao.categoria.CategoriaDAO;
 import it.prova.gestioneordini.model.Articolo;
 import it.prova.gestioneordini.model.Categoria;
 
-public class ArticoloServiceImpl implements ArticoloService {
+public class CategoriaServiceImpl implements CategoriaService {
 
-	private ArticoloDAO articoloDAO;
-
-	@Override
-	public void setArticoloDAO(ArticoloDAO articoloDAO) {
-		this.articoloDAO = articoloDAO;
-	}
+	private CategoriaDAO categoriaDAO;
 
 	@Override
-	public List<Articolo> listAll() throws Exception {
+	public List<Categoria> listAll() throws Exception {
 
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
-			articoloDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
 
-			return articoloDAO.list();
+			return categoriaDAO.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -36,32 +31,14 @@ public class ArticoloServiceImpl implements ArticoloService {
 	}
 
 	@Override
-	public Articolo caricaSingoloElemento(Long id) throws Exception {
+	public Categoria caricaSingoloElemento(Long id) throws Exception {
 
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
-			articoloDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
 
-			return articoloDAO.get(id);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			EntityManagerUtil.closeEntityManager(entityManager);
-		}
-	}
-
-	@Override
-	public Articolo caricaSingoloElementoEagerCategorie(Long id) throws Exception {
-
-		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-
-		try {
-			articoloDAO.setEntityManager(entityManager);
-
-			return articoloDAO.findByIdFetchingCategorie(id);
+			return categoriaDAO.get(id);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,15 +49,33 @@ public class ArticoloServiceImpl implements ArticoloService {
 	}
 
 	@Override
-	public void aggiorna(Articolo articolo) throws Exception {
+	public Categoria caricaSingoloElementoEagerArticoli(Long id) throws Exception {
+
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			categoriaDAO.setEntityManager(entityManager);
+
+			return categoriaDAO.findByIdFetchingArticoli(id);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+	}
+
+	@Override
+	public void aggiorna(Categoria categoria) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
 			entityManager.getTransaction().begin();
 
-			articoloDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
 
-			articoloDAO.update(articolo);
+			categoriaDAO.update(categoria);
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -93,15 +88,15 @@ public class ArticoloServiceImpl implements ArticoloService {
 	}
 
 	@Override
-	public void inserisciNuovo(Articolo articolo) throws Exception {
+	public void inserisciNuovo(Categoria categoria) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
 			entityManager.getTransaction().begin();
 
-			articoloDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
 
-			articoloDAO.insert(articolo);
+			categoriaDAO.insert(categoria);
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -114,15 +109,15 @@ public class ArticoloServiceImpl implements ArticoloService {
 	}
 
 	@Override
-	public void rimuovi(Long idArticolo) throws Exception {
+	public void rimuovi(Long idCategoria) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
 			entityManager.getTransaction().begin();
 
-			articoloDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
 
-			articoloDAO.delete(articoloDAO.get(idArticolo));
+			categoriaDAO.delete(categoriaDAO.get(idCategoria));
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -134,18 +129,19 @@ public class ArticoloServiceImpl implements ArticoloService {
 		}
 	}
 
-	public void aggiungiCategoria(Articolo articolo, Categoria categoria) throws Exception {
+	@Override
+	public void aggiungiArticolo(Articolo articolo, Categoria categoria) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
 			entityManager.getTransaction().begin();
 
-			articoloDAO.setEntityManager(entityManager);
+			categoriaDAO.setEntityManager(entityManager);
 
-			articolo = entityManager.merge(articolo);
 			categoria = entityManager.merge(categoria);
+			articolo = entityManager.merge(articolo);
 
-			articolo.getCategorie().add(categoria);
+			categoria.getArticoli().add(articolo);
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -156,4 +152,10 @@ public class ArticoloServiceImpl implements ArticoloService {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
+
+	@Override
+	public void setArticoloDAO(CategoriaDAO categoriaDAO) {
+		this.categoriaDAO = categoriaDAO;
+	}
+
 }
