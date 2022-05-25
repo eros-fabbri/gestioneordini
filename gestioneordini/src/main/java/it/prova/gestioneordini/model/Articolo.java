@@ -1,6 +1,7 @@
 package it.prova.gestioneordini.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class Articolo {
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "articolo_categoria", joinColumns = @JoinColumn(name = "articolo_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
 
-	private List<Categoria> categorie;
+	private List<Categoria> categorie = new ArrayList<Categoria>();
 
 	public Articolo() {
 		super();
@@ -61,8 +62,16 @@ public class Articolo {
 		this.dataInserimento = dataInserimento;
 		
 	}
+	public Articolo(String descrizione, int prezzoSingolo, String numeroSeriale, Date dataInserimento) {
+		super();
+		this.descrizione = descrizione;
+		this.prezzoSingolo = prezzoSingolo;
+		this.dataInserimento = dataInserimento;
+		this.numeroSeriale = numeroSeriale;
+		
+	}
 
-	public Articolo(String descrizione, int prezzoSingolo, Date dataInserimento, Ordine ordine,
+	public Articolo(String descrizione, int prezzoSingolo, String numeroSeriale,Date dataInserimento, Ordine ordine,
 			List<Categoria> categorie) {
 		super();
 		this.descrizione = descrizione;

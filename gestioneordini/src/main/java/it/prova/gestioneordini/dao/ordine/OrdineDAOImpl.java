@@ -62,4 +62,19 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	}
 
+	@Override
+	public List<Ordine> findTuttiOrdiniDiUnaCategoria(Categoria categoria) throws Exception {
+		
+		TypedQuery<Ordine> query = entityManager.createQuery(
+				"select o from Ordine o join o.articoli a join a.categorie c where c.id = :idCategoria", Ordine.class);
+		query.setParameter("idCategoria", categoria.getId());
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Ordine> findIlPiuRecenteDellaCategoria(Categoria categoria) throws Exception {
+		
+		return null;
+	}
+
 }

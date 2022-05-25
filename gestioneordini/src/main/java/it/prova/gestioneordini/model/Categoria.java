@@ -41,7 +41,12 @@ public class Categoria {
 	public Categoria() {
 		super();
 	}
-
+	
+	public Categoria(String descrizione, String codice) {
+		super();
+		this.descrizione = descrizione;
+		this.codice = codice;
+	}
 	public Categoria(String descrizione, String codice, List<Articolo> articoli) {
 		super();
 		this.descrizione = descrizione;
