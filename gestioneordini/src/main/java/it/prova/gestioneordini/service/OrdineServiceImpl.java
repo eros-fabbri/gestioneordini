@@ -175,6 +175,39 @@ public class OrdineServiceImpl implements OrdineService {
 		}
 	}
 
+	@Override
+	public List<String> getIndirizziOrdiniCheHannoArticoliConCodiceCheContiene(String string) throws Exception {
+		
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		try {
+			ordineDao.setEntityManager(entityManager);
+
+			return ordineDao.getIndirizziOrdiniCheHannoArticoliConCodiceCheContiene(string);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+	}
+
+	@Override
+	public Ordine findIlPiuRecenteDellaCategoria(Categoria categoria) throws Exception {
+		
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			ordineDao.setEntityManager(entityManager);
+
+			return ordineDao.findIlPiuRecenteDellaCategoria(categoria);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}	}
+
 //	@Override
 //	public List<Ordine> findTuttiOrdiniDiUnaCategoria(Categoria categoria) throws Exception {
 //		EntityManager entityManager = EntityManagerUtil.getEntityManager();

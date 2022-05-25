@@ -21,7 +21,7 @@ public class TestGestioneordini {
 		OrdineService ordineService = MyServiceFactory.getOrdineServiceInstance();
 		try {
 
-			testInserisciNuovoOrdineEArticolo(articoloService,ordineService);
+			testInserisciNuovoOrdineEArticolo(articoloService, ordineService);
 			testRimuoviArticoloDaOrdine(ordineService, articoloService);
 			testFindTuttiOrdiniCategoria(articoloService, ordineService, categoriaService);
 			testRimuoviArticolo(articoloService);
@@ -29,6 +29,8 @@ public class TestGestioneordini {
 			testRimuoviCategoria(categoriaService);
 			testGetCodiciCategoriaDiOrdiniFebbraio2022(articoloService, ordineService, categoriaService);
 			testGetSommaPrezziArticoliMarioRossi(articoloService, ordineService);
+			testGetIndirizziOrdiniCheHannoArticoliConCodiceCheContiene(articoloService, ordineService);
+			testFindIlPiuRecenteDellaCategoria(articoloService, ordineService, categoriaService);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -37,8 +39,8 @@ public class TestGestioneordini {
 		}
 	}
 
-	public static void testInserisciNuovoOrdineEArticolo(ArticoloService articoloService,
-			OrdineService ordineService) throws Exception {
+	public static void testInserisciNuovoOrdineEArticolo(ArticoloService articoloService, OrdineService ordineService)
+			throws Exception {
 		System.out.println(".......testInserisciNuovoArticolo inizio.............");
 		Ordine ordineInstance = new Ordine("mario rossi", "via roma 33",
 				new SimpleDateFormat("dd/MM/yyyy").parse("24/09/2019"));
@@ -75,11 +77,11 @@ public class TestGestioneordini {
 		articoloService.rimuovi(articoloTest.getId());
 		System.out.println(".......testRimuoviArticolo fine: PASSED.............");
 	}
-	
+
 	public static void testRimuoviCategoria(CategoriaService categoriaService) throws Exception {
 		System.out.println(".......testRimuoviCategoria inizio.............");
 		List<Categoria> elencoCategorie = categoriaService.listAll();
-		Categoria categoriaTest= elencoCategorie.get(0);
+		Categoria categoriaTest = elencoCategorie.get(0);
 		categoriaService.rimuovi(categoriaTest.getId());
 		System.out.println(".......testRimuoviCategoria PASSED.............");
 	}
@@ -87,19 +89,18 @@ public class TestGestioneordini {
 	public static void testAggiungiCategoriaAdArticolo(ArticoloService articoloService,
 			CategoriaService categoriaService, OrdineService ordineService) throws Exception {
 		System.out.println(".......testAggiungiCategoriaAdArticolo inizio.............");
-		
-		Ordine ordineTest = new Ordine("Pippo", "Via pluto 80",
-				new SimpleDateFormat("dd/MM/yyyy").parse("25/07/2020"));
+
+		Ordine ordineTest = new Ordine("Pippo", "Via pluto 80", new SimpleDateFormat("dd/MM/yyyy").parse("25/07/2020"));
 		Articolo articoloTest = new Articolo("tv", 6000, "ehehe",
 				new SimpleDateFormat("dd/MM/yyyy").parse("09/02/2020"));
-		
+
 		articoloTest.setOrdine(ordineTest);
 		ordineService.inserisciNuovo(ordineTest);
 		articoloService.inserisciNuovo(articoloTest);
 		Categoria cartegoriaTest = new Categoria("categoria", "afasfdasdfas");
 		categoriaService.inserisciNuovo(cartegoriaTest);
 		articoloService.aggiungiCategoria(articoloTest, cartegoriaTest);
-		
+
 		System.out.println(".......testAggiungiCategoriaAdArticolo fine: PASSED.............");
 	}
 
@@ -119,16 +120,16 @@ public class TestGestioneordini {
 
 		categoriaService.aggiungiArticolo(articoloTest, categoriaTest);
 
-		if (categoriaTest.getId() <1)
+		if (categoriaTest.getId() < 1)
 			throw new RuntimeException("FAILED:  categoria id non valido");
 		System.out.println(ordineService.findTuttiOrdiniDiUnaCategoria(categoriaTest));
 		System.out.println(".......testFindTuttiOrdiniCategoria fine: PASSED.............");
 
 	}
-	
-	public static void testGetCodiciCategoriaDiOrdiniFebbraio2022(ArticoloService articoloService, OrdineService ordineService,
-			CategoriaService categoriaService) throws Exception {
-		
+
+	public static void testGetCodiciCategoriaDiOrdiniFebbraio2022(ArticoloService articoloService,
+			OrdineService ordineService, CategoriaService categoriaService) throws Exception {
+
 		System.out.println(".......testGetCodiciCategoriaDiOrdiniFebbraio2022 inizio.............");
 
 		Ordine ordineTest = new Ordine("Mario", "Via mario 7", new SimpleDateFormat("dd/MM/yyyy").parse("22/02/2022"));
@@ -143,14 +144,15 @@ public class TestGestioneordini {
 
 		categoriaService.aggiungiArticolo(articoloTest, categoriaTest);
 
-		if (categoriaTest.getId() <1)
+		if (categoriaTest.getId() < 1)
 			throw new RuntimeException("FAILED:  categoria id non valido");
 		System.out.println(categoriaService.getCodiciCategoriaDiOrdiniFebbraio2022());
 		System.out.println(".......testGetCodiciCategoriaDiOrdiniFebbraio2022 fine: PASSED.............");
-		
+
 	}
-	
-	public static void testGetSommaPrezziArticoliMarioRossi(ArticoloService articoloService, OrdineService ordineService) throws Exception {
+
+	public static void testGetSommaPrezziArticoliMarioRossi(ArticoloService articoloService,
+			OrdineService ordineService) throws Exception {
 		System.out.println(".......testGetSommaPrezziArticoliMarioRossi inizio.............");
 		Articolo articoloTest = new Articolo("tv", 6000, "ehehe",
 				new SimpleDateFormat("dd/MM/yyyy").parse("09/02/2020"));
@@ -159,17 +161,50 @@ public class TestGestioneordini {
 		articoloTest.setOrdine(ordineTest);
 		ordineService.inserisciNuovo(ordineTest);
 		articoloService.inserisciNuovo(articoloTest);
-		
+
 		System.out.println(articoloService.getSommaPrezziArticoliMarioRossi());
-		
+
 		System.out.println(".......testGetSommaPrezziArticoliMarioRossi inizio.............");
 
-		
-		
 	}
-	
-	
-	
-	
+
+	public static void testGetIndirizziOrdiniCheHannoArticoliConCodiceCheContiene(ArticoloService articoloService,
+			OrdineService ordineService) throws Exception {
+		System.out.println(".......testGetIndirizziOrdiniCheHannoArticoliConCodiceCheContiene inizio.............");
+		Articolo articoloTest = new Articolo("tv", 6000, "ehehe",
+				new SimpleDateFormat("dd/MM/yyyy").parse("09/02/2020"));
+		Ordine ordineTest = new Ordine("mario rossi", "Via Milano 42C",
+				new SimpleDateFormat("dd/MM/yyyy").parse("17/08/2021"));
+		articoloTest.setOrdine(ordineTest);
+		ordineService.inserisciNuovo(ordineTest);
+		articoloService.inserisciNuovo(articoloTest);
+
+		System.out.println(ordineService.getIndirizziOrdiniCheHannoArticoliConCodiceCheContiene("he"));
+
+		System.out.println(".......testGetIndirizziOrdiniCheHannoArticoliConCodiceCheContiene inizio.............");
+
+	}
+
+	public static void testFindIlPiuRecenteDellaCategoria(ArticoloService articoloService, OrdineService ordineService,
+			CategoriaService categoriaService) throws Exception {
+		System.out.println(".......testGetIndirizziOrdiniCheHannoArticoliConCodiceCheContiene inizio.............");
+
+		Ordine ordineTest = new Ordine("Mario", "Via mario 7", new SimpleDateFormat("dd/MM/yyyy").parse("14/08/2020"));
+		Articolo articoloTest = new Articolo("tv piatto", 1000, "pttv",
+				new SimpleDateFormat("dd/MM/yyyy").parse("09/02/2020"));
+		Categoria categoriaTest = new Categoria("televisori", "TV2000");
+
+		ordineService.inserisciNuovo(ordineTest);
+		articoloTest.setOrdine(ordineTest);
+		articoloService.inserisciNuovo(articoloTest);
+		categoriaService.inserisciNuovo(categoriaTest);
+
+		categoriaService.aggiungiArticolo(articoloTest, categoriaTest);
+
+		System.out.println(ordineService.findIlPiuRecenteDellaCategoria(categoriaTest));
+
+		System.out.println(".......testGetIndirizziOrdiniCheHannoArticoliConCodiceCheContiene inizio.............");
+
+	}
 
 }

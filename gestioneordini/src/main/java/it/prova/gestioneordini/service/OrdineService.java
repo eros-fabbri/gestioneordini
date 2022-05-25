@@ -24,8 +24,10 @@ public interface OrdineService {
 	public void aggiungiArticolo(Articolo articolo, Ordine ordine) throws Exception;
 	
 	public List<Ordine> findTuttiOrdiniDiUnaCategoria(Categoria categoria) throws Exception;
+		
+	public List<String> getIndirizziOrdiniCheHannoArticoliConCodiceCheContiene(String string) throws Exception;
 	
-	//public void findTuttiOrdiniDiUnaCategoria(Categoria categoria) throws Exception;
+	public Ordine findIlPiuRecenteDellaCategoria(Categoria categoria) throws Exception;
 
 	void setOrdineDAO(OrdineDAO ordineDAO);
 
