@@ -36,6 +36,13 @@ public class Ordine {
 	public Ordine() {
 		super();
 	}
+	
+	public Ordine(String nomeDestinatario, String indirizzoSpedizione, Date dataSpedizione) {
+		super();
+		this.nomeDestinatario = nomeDestinatario;
+		this.indirizzoSpedizione = indirizzoSpedizione;
+		this.dataSpedizione = dataSpedizione;
+	}
 
 	public Ordine(String nomeDestinatario, String indirizzoSpedizione, Date dataSpedizione, List<Articolo> articoli) {
 		super();

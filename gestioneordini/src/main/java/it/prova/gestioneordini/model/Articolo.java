@@ -37,7 +37,7 @@ public class Articolo {
 	@Column(name = "datainserimento")
 	private Date dataInserimento;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ordine_id", nullable = false)
+	@JoinColumn(name = "ordine_id")
 	private Ordine ordine;
 
 	@CreationTimestamp
@@ -52,6 +52,14 @@ public class Articolo {
 
 	public Articolo() {
 		super();
+	}
+	
+	public Articolo(String descrizione, int prezzoSingolo, Date dataInserimento) {
+		super();
+		this.descrizione = descrizione;
+		this.prezzoSingolo = prezzoSingolo;
+		this.dataInserimento = dataInserimento;
+		
 	}
 
 	public Articolo(String descrizione, int prezzoSingolo, Date dataInserimento, Ordine ordine,
