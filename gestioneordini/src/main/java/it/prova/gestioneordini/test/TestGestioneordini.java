@@ -28,6 +28,7 @@ public class TestGestioneordini {
 			testAggiungiCategoriaAdArticolo(articoloService, categoriaService, ordineService);
 			testRimuoviCategoria(categoriaService);
 			testGetCodiciCategoriaDiOrdiniFebbraio2022(articoloService, ordineService, categoriaService);
+			testGetSommaPrezziArticoliMarioRossi(articoloService, ordineService);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -95,7 +96,7 @@ public class TestGestioneordini {
 		articoloTest.setOrdine(ordineTest);
 		ordineService.inserisciNuovo(ordineTest);
 		articoloService.inserisciNuovo(articoloTest);
-		Categoria cartegoriaTest = new Categoria("Dolci", "091032R");
+		Categoria cartegoriaTest = new Categoria("categoria", "afasfdasdfas");
 		categoriaService.inserisciNuovo(cartegoriaTest);
 		articoloService.aggiungiCategoria(articoloTest, cartegoriaTest);
 		
@@ -146,6 +147,24 @@ public class TestGestioneordini {
 			throw new RuntimeException("FAILED:  categoria id non valido");
 		System.out.println(categoriaService.getCodiciCategoriaDiOrdiniFebbraio2022());
 		System.out.println(".......testGetCodiciCategoriaDiOrdiniFebbraio2022 fine: PASSED.............");
+		
+	}
+	
+	public static void testGetSommaPrezziArticoliMarioRossi(ArticoloService articoloService, OrdineService ordineService) throws Exception {
+		System.out.println(".......testGetSommaPrezziArticoliMarioRossi inizio.............");
+		Articolo articoloTest = new Articolo("tv", 6000, "ehehe",
+				new SimpleDateFormat("dd/MM/yyyy").parse("09/02/2020"));
+		Ordine ordineTest = new Ordine("mario rossi", "Via Milano 42C",
+				new SimpleDateFormat("dd/MM/yyyy").parse("17/08/2021"));
+		articoloTest.setOrdine(ordineTest);
+		ordineService.inserisciNuovo(ordineTest);
+		articoloService.inserisciNuovo(articoloTest);
+		
+		System.out.println(articoloService.getSommaPrezziArticoliMarioRossi());
+		
+		System.out.println(".......testGetSommaPrezziArticoliMarioRossi inizio.............");
+
+		
 		
 	}
 	

@@ -156,4 +156,20 @@ public class ArticoloServiceImpl implements ArticoloService {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
+
+	@Override
+	public Long getSommaPrezziArticoliMarioRossi() throws Exception {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			articoloDAO.setEntityManager(entityManager);
+
+			return articoloDAO.getSommaPrezziArticoliMarioRossi();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+	}
 }
