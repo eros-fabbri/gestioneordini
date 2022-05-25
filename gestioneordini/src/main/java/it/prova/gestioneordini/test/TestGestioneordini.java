@@ -19,12 +19,12 @@ public class TestGestioneordini {
 		OrdineService ordineService = MyServiceFactory.getOrdineServiceInstance();
 		try {
 
-			// testInserisciNuovoOrdineEArticolo(articoloService,
-			// ordineService);
-			// testRimuoviArticoloDaOrdine(ordineService, articoloService)
+			testInserisciNuovoOrdineEArticolo(articoloService,ordineService);
+			testRimuoviArticoloDaOrdine(ordineService, articoloService);
 			testFindTuttiOrdiniCategoria(articoloService, ordineService, categoriaService);
 			testRimuoviArticolo(articoloService);
 			testAggiungiCategoriaAdArticolo(articoloService, categoriaService, ordineService);
+			testRimuoviCategoria(categoriaService);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -71,6 +71,14 @@ public class TestGestioneordini {
 		articoloService.rimuovi(articoloTest.getId());
 		System.out.println(".......testRimuoviArticolo fine: PASSED.............");
 	}
+	
+	public static void testRimuoviCategoria(CategoriaService categoriaService) throws Exception {
+		System.out.println(".......testRimuoviCategoria inizio.............");
+		List<Categoria> elencoCategorie = categoriaService.listAll();
+		Categoria categoriaTest= elencoCategorie.get(0);
+		categoriaService.rimuovi(categoriaTest.getId());
+		System.out.println(".......testRimuoviCategoria PASSED.............");
+	}
 
 	public static void testAggiungiCategoriaAdArticolo(ArticoloService articoloService,
 			CategoriaService categoriaService, OrdineService ordineService) throws Exception {
@@ -107,8 +115,8 @@ public class TestGestioneordini {
 
 		categoriaService.aggiungiArticolo(articoloTest, categoriaTest);
 
-		if (categoriaTest.getId() == 0)
-			throw new RuntimeException("FAILED:  categoria non inserita o id non presente");
+		if (categoriaTest.getId() <1)
+			throw new RuntimeException("FAILED:  categoria id non valido");
 		System.out.println(ordineService.findTuttiOrdiniDiUnaCategoria(categoriaTest));
 		System.out.println(".......testFindTuttiOrdiniCategoria fine: PASSED.............");
 

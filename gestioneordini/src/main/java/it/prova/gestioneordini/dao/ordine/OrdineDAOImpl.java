@@ -3,7 +3,10 @@ package it.prova.gestioneordini.dao.ordine;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import org.hibernate.query.NativeQuery;
 
 import it.prova.gestioneordini.model.Categoria;
 import it.prova.gestioneordini.model.Ordine;
@@ -62,11 +65,12 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Ordine> findTuttiOrdiniDiUnaCategoria(Categoria categoria) throws Exception {
-		
-		TypedQuery<Ordine> query = entityManager.createQuery(
-				"select o from Ordine o join o.articoli a join a.categorie c where c.id = :idCategoria", Ordine.class);
+				
+		Query query = entityManager.createNativeQuery(
+				"select * from ordine o inner join articolo a on o.id=a.ordine_id inner join articolo_categoria ac on ac.articolo_id=a.id inner join categoria c on ac.categoria_id=c.id where c.id= :idCategoria",Ordine.class);
 		query.setParameter("idCategoria", categoria.getId());
 		return query.getResultList();
 	}
