@@ -154,7 +154,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 	}
 
 	@Override
-	public void setArticoloDAO(CategoriaDAO categoriaDAO) {
+	public void setCategoriaDAO(CategoriaDAO categoriaDAO) {
 		this.categoriaDAO = categoriaDAO;
 	}
 

@@ -22,7 +22,7 @@ public interface CategoriaService {
 	
 	public void aggiungiArticolo(Articolo articolo, Categoria categoria) throws Exception;
 
-	void setArticoloDAO(CategoriaDAO categoriaDAO);
+	void setCategoriaDAO(CategoriaDAO categoriaDAO);
 }
 
 
