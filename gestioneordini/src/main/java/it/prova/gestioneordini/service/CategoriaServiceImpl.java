@@ -158,4 +158,21 @@ public class CategoriaServiceImpl implements CategoriaService {
 		this.categoriaDAO = categoriaDAO;
 	}
 
+	public List<String> getCodiciCategoriaDiOrdiniFebbraio2022() throws Exception {
+
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			categoriaDAO.setEntityManager(entityManager);
+
+			return categoriaDAO.getCodiciCategoriaDiOrdiniFebbraio2022();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+
+	}
+
 }

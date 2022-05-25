@@ -21,6 +21,8 @@ public interface CategoriaService {
 	public void rimuovi(Long idCategoria) throws Exception;
 	
 	public void aggiungiArticolo(Articolo articolo, Categoria categoria) throws Exception;
+	
+	public List<String> getCodiciCategoriaDiOrdiniFebbraio2022() throws Exception;
 
 	void setCategoriaDAO(CategoriaDAO categoriaDAO);
 }

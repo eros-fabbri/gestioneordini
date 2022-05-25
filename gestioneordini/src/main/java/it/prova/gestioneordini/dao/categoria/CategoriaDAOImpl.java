@@ -3,6 +3,7 @@ package it.prova.gestioneordini.dao.categoria;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import it.prova.gestioneordini.model.Articolo;
@@ -60,5 +61,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		query.setParameter("idCategoria", id);
 		return query.getResultList().stream().findFirst().orElse(null);
 
+	}
+
+	@Override
+	public List<String> getCodiciCategoriaDiOrdiniFebbraio2022() throws Exception {
+		
+		TypedQuery<String> query = entityManager.createQuery(
+				"select c.codice FROM Categoria c join c.articoli a  join a.ordine o where o.dataSpedizione like '2022-02-%'",String.class);
+		return  query.getResultList();
+		
 	}
 }

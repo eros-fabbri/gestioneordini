@@ -1,6 +1,8 @@
 package it.prova.gestioneordini.test;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import it.prova.gestioneordini.dao.EntityManagerUtil;
@@ -25,6 +27,7 @@ public class TestGestioneordini {
 			testRimuoviArticolo(articoloService);
 			testAggiungiCategoriaAdArticolo(articoloService, categoriaService, ordineService);
 			testRimuoviCategoria(categoriaService);
+			testGetCodiciCategoriaDiOrdiniFebbraio2022(articoloService, ordineService, categoriaService);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -121,5 +124,33 @@ public class TestGestioneordini {
 		System.out.println(".......testFindTuttiOrdiniCategoria fine: PASSED.............");
 
 	}
+	
+	public static void testGetCodiciCategoriaDiOrdiniFebbraio2022(ArticoloService articoloService, OrdineService ordineService,
+			CategoriaService categoriaService) throws Exception {
+		
+		System.out.println(".......testGetCodiciCategoriaDiOrdiniFebbraio2022 inizio.............");
+
+		Ordine ordineTest = new Ordine("Mario", "Via mario 7", new SimpleDateFormat("dd/MM/yyyy").parse("22/02/2022"));
+		Articolo articoloTest = new Articolo("smartphone", 300, "smpn300",
+				new SimpleDateFormat("dd/MM/yyyy").parse("09/02/2020"));
+		Categoria categoriaTest = new Categoria("smartphones", "SMP00N3S");
+
+		ordineService.inserisciNuovo(ordineTest);
+		articoloTest.setOrdine(ordineTest);
+		articoloService.inserisciNuovo(articoloTest);
+		categoriaService.inserisciNuovo(categoriaTest);
+
+		categoriaService.aggiungiArticolo(articoloTest, categoriaTest);
+
+		if (categoriaTest.getId() <1)
+			throw new RuntimeException("FAILED:  categoria id non valido");
+		System.out.println(categoriaService.getCodiciCategoriaDiOrdiniFebbraio2022());
+		System.out.println(".......testGetCodiciCategoriaDiOrdiniFebbraio2022 fine: PASSED.............");
+		
+	}
+	
+	
+	
+	
 
 }
